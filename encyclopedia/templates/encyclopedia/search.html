@@ -5,12 +5,14 @@
 {% endblock %}
 
 {% block body%}
-    <h1>Results matching "{{query}}"</h1>
+    <h1>Results matching "{{query}}":</h1>
     <ul>
         {% for entry in similar_entries %}
             <li>
                 <a href="{% url 'encyclopedia:entry' entry %}"> {{ entry }}</a>
             </li>
+        {% empty %}
+            <li>No results matching "{{query}}".</li>
         {% endfor %}
     </ul>
 {% endblock %}

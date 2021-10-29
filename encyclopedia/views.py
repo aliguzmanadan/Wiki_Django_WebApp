@@ -4,6 +4,7 @@ from django.shortcuts import render
 import markdown2
 from django.urls import reverse
 from django import forms
+import random
 
 from . import util
 
@@ -114,4 +115,6 @@ def editpage(request, title):
             return entry(request, title)
 
 
-    
+def randompage(request):
+    random_title = random.choice(util.list_entries())
+    return entry(request, random_title)
