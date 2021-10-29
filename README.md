@@ -1,7 +1,8 @@
 # wiki
 Project_01 Course web programming
 
-This is Web programing project in Django. The idea is to reporduce what the wikipedia webpage does. 
+This is a Web programing project in Django. The idea is to reporduce what the wikipedia webpage does. 
+
 Have a look at it by following the following steps:
 
 1. Download the repository to your local computer.
