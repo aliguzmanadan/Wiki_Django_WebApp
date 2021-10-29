@@ -11,6 +11,9 @@ class NewPageForm(forms.Form):
     title = forms.CharField(label= "Tilte", widget=forms.TextInput(attrs={'placeholder': 'Title'}))
     content = forms.CharField(label= "Content", widget=forms.Textarea(attrs={'placeholder': 'Content'}))
 
+class EditForm(forms.Form):
+    content = forms.CharField(label= "", widget=forms.Textarea())
+
 
 def index(request):
     return render(request, "encyclopedia/index.html", {
@@ -75,3 +78,40 @@ def newpage(request):
         "new_entry": new_entry,
         "form": NewPageForm()
     })
+
+
+def editpage(request, title):
+
+    if request.method == "GET":  
+        #Getting the markdown text of the entry
+        md_file = util.get_entry(title)
+
+        #Creating textarea with this text
+        form = EditForm(initial={'content': md_file})
+
+        #rendering the view
+        return render(request, "encyclopedia/editpage.html", {
+            "entry": title,
+            "text_box": form
+        })
+
+    else:
+        # Take in the data the user submitted and save it as form
+        new_form = EditForm(request.POST)
+        
+        # Check if form data is valid (server-side)
+        if new_form.is_valid():
+
+            # Isolate the title and the content from the form                        
+            new_content = new_form.cleaned_data["content"]
+
+            #Open the file an overwrite it
+            f = open(f"entries/{title}.md", 'w')
+            f.write(new_content)
+            f.close()
+
+            #display edited page
+            return entry(request, title)
+
+
+    
